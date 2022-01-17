@@ -48,7 +48,7 @@ sudo apt-get update && sudo apt-get install -y build-essential python oracle-jav
 
 Now, let's download Hadoop and set it up.
 ```
-wget http://apache.claz.org/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
+wget https://archive.apache.org/dist/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
 tar -xzvf hadoop-3.2.1.tar.gz
 sudo mv hadoop-3.2.1 /usr/local/hadoop
 ```
