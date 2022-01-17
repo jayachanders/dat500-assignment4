@@ -1,1 +1,32 @@
 # dat500-assignment4
+
+To form groups and to start with this assignment you need all 3 previous assignments approved.
+
+This assignment is more important, but also more complex, compared to first 3 labs, because you are going to use this setup for your project. So, make sure you complete the task and keep it ready for your projects.  
+
+For this assignment you form groups of 3, which you then keep for the project. Use group features on Canvas. 
+
+Part 1: 
+
+Login in to http://cloud.cs.ux.uis.no/horizon (Links to an external site.) using the details provides to you group. 
+Go to Project->Network->Network  [You will perform this step only once] 
+Create network: Choose name , Subnet Name, Network address (10.10.1.0/24 or you can choose any other private ip range), Gatewat IP (10.10.1.1 or you can leave it).  --- Create the Network. 
+Create router: Choose router name, choose external network. --- Create the Router. 
+Add interface: Choose router (click on router name) -> In Interface Tab -> Add Interface -> Select Subnet Name -> Submit (create the interface). 
+You can check the Network Topology for each step. 
+Manage Security Group Rules: Project -> Network -> Security Groups -> Manage Rules ->Add Rule -> Rule (select SSH) , CIDR (choose IP from where you want to connect from) -> Add.   (If you don’t have this rule, you will not be able to SSH to the VM created)
+Create a test VM: Go to Project -> Compute -> Instances 
+Launch -> Select Name -> Source (Ubuntu or Centos) -> Flavor (m1.small or m1.medium ) -> -> -> (Key Pair – Only first time, create your ssh key or upload existing ssh key).  
+Creating floating ip (first time only): Project -> Instance -> options from instance --> associate floating ip -> create IP -> allocate IP .
+To SSH to VM use (if Ubuntu image ) user name : ubuntu ,  (CentOS image) user name : centos  --->      ssh username@floating_ip -i ssh_key
+Part 2: 
+
+Setup Hadoop from scratch in a distributed mode using multiple VMs. 
+
+Create a Master VM and 3 slave VMs. 
+Setup the Hadoop cluster in distributed mode. (Choose your Hadoop version carefully if you are going to use Spark later for your project. Not all versions of Hadoop are compatible. Spark installation is not part of this assignment). 
+You deliver the assignment by showing it to student assistants or me during lab or group work hours. Any delivery outside these hours have to be agreed on beforehand. 
+
+This task is significantly more difficult than the earlier three. You need to complete this task and keep it in good condition for your final project. 
+
+Extra Info : Save all the steps, in case you are facing some problem, it will be easy to recreate the setup faster. 
