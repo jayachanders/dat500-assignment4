@@ -41,22 +41,26 @@ Extra Info : Save all the steps, in case you are facing some problem, it will be
 
 [Steps for 3.2.1 are given, Spark in not avilable for this version. If you are going to use Spark, please do some research and choose your Hadoop version carefully]
 
-
+```
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update && sudo apt-get install -y build-essential python oracle-java8-set-default
+```
 
 Now, let's download Hadoop and set it up.
-
+```
 wget http://apache.claz.org/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
 tar -xzvf hadoop-3.2.1.tar.gz
 sudo mv hadoop-3.2.1 /usr/local/hadoop
-
+```
 set environment variables
+```
 sudo vi /etc/environment
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/hadoop/bin:/usr/local/hadoop/sbin"
 JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
+```
 
 Update it:
+```
 source /etc/environment
-
+```
