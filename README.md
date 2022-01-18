@@ -31,7 +31,7 @@ Part 2:
 
 Setup Hadoop from scratch in a distributed mode using multiple VMs. 
 
-Create a Master VM and 3 slave VMs. 
+Create a Namenode VM and 3 Datanode VMs. 
 Setup the Hadoop cluster in distributed mode. (Choose your Hadoop version carefully if you are going to use Spark later for your project. Not all versions of Hadoop are compatible. Spark installation is not part of this assignment). 
 You deliver the assignment by showing it to student assistants or me during lab or group work hours. Any delivery outside these hours have to be agreed on beforehand. 
 
@@ -42,18 +42,21 @@ Extra Info : Save all the steps, in case you are facing some problem, it will be
 [Steps for 3.2.1 are given, Spark in not avilable for this version. If you are going to use Spark, please do some research and choose your Hadoop version carefully]
 
 ```
+# On all nodes
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update && sudo apt-get install -y build-essential python oracle-java8-set-default
 ```
 
 Now, let's download Hadoop and set it up.
 ```
+# On all nodes
 wget https://archive.apache.org/dist/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
 tar -xzvf hadoop-3.2.1.tar.gz
 sudo mv hadoop-3.2.1 /usr/local/hadoop
 ```
 set environment variables
 ```
+# On all nodes
 sudo vi /etc/environment
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/hadoop/bin:/usr/local/hadoop/sbin"
@@ -62,5 +65,134 @@ JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
 
 Update it:
 ```
+# On all nodes
 source /etc/environment
+```
+
+Set proper hostnames and instead of using the IP address.
+
+sudo vi /etc/hosts
+```
+# On all nodes
+10.10.X.Y namenode
+10.10.X.a datanode1
+10.10.X.b datanode2
+10.10.X.c datanode3
+```
+
+## Hadoop environment setup
+sudo vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
+```
+# On all nodes
+<configuration>
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>/usr/local/hadoop/data/nameNode</value>
+  </property>
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>/usr/local/hadoop/data/dataNode</value>
+  </property>
+  <property>
+    <name>dfs.replication</name>
+    <value>2</value>
+  </property>
+</configuration>
+```
+
+sudo vi /usr/local/hadoop/etc/hadoop/core-site.xml
+
+```
+# On all nodes
+<configuration>
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://namenode:9000</value>
+  </property>
+</configuration>
+```
+
+sudo vi /usr/local/hadoop/etc/hadoop/yarn-site.xml
+```
+# On all nodes
+<configuration>
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+      <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+      <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.hostname</name>
+    <value>namenode</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.vmem-check-enabled</name>
+    <value>false</value>
+  </property>
+</configuration>
+```
+
+sudo vi /usr/local/hadoop/etc/hadoop/mapred-site.xml
+```
+# On all nodes
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>yarn.app.mapreduce.am.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.map.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.reduce.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+</configuration>
+```
+
+sudo vi /usr/local/hadoop/etc/hadoop/workers
+```
+# On all nodes
+datanode1
+datanode2
+datanode3
+```
+
+sudo vi /usr/local/hadoop/etc/hadoop/masters
+```
+# On all nodes
+namenode
+```
+
+Format the HDFS, this needs to be done only in the first step. Once the HDFS is setup, don't run this command. It will delete data in HDFS.
+```
+# Only on namenode
+hdfs namenode -format
+```
+
+Start dfs and yarn
+```
+# Only on namenode
+start-dfs.sh
+start-yarn.sh
+hadoop fs -ls /
+```
+
+Check hdfs status: Live datanodes should be 3
+```
+# Only on namenode
+hdfs dfsadmin -report
+```
+
+
+```
 ```
