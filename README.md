@@ -10,22 +10,43 @@ Part 1:
 
 1. Login in to http://cloud.cs.ux.uis.no/horizon (Links to an external site.) using the details provides to you group. [Works only from UiS network]
 2. Go to Project->Network->Network  [You will perform this step only once] 
-   2.1 Create network: Choose name , Subnet Name, Network address (10.10.1.0/24 or you can choose any other private ip range), Gatewat IP (10.10.1.1 or you can leave it).  --- Create the Network. 
 
+   2.1 Create network: Choose name , Subnet Name, Network address [X = Group Number.] (10.10.X.0/24 or you can choose any other private ip range), Gateway IP (10.10.X.1 or you can leave it).  --- Create the Network. 
+```
+# For example Group 1: 
+Name : Group1_Network
+Subnet Name: Group1_subnet
+Network address: 10.10.1.0/24
+Gateway IP: 10.10.1.1
+```
    2.2 Create router: Choose router name, choose external network. --- Create the Router. 
+```
+# For example Group 1: 
+Router name : Group1_router
+External network : public-network1  # Avilable from drop down options
+```
 
    2.3 Add interface: Choose router (click on router name) -> In Interface Tab -> Add Interface -> Select Subnet Name -> Submit (create the interface). 
+```
+# For example Group 1: 
+Router name : Group1_router
+External network : public-network1  # Avilable from drop down options
+```
 
    2.4 You can check the Network Topology for each step. 
    
    2.5Manage Security Group Rules: Project -> Network -> Security Groups -> Manage Rules ->Add Rule -> Rule (select SSH) , CIDR (choose IP from where you want to connect from) -> Add.   (If you don’t have this rule, you will not be able to SSH to the VM created)
 
 3. Create a test VM: Go to Project -> Compute -> Instances 
+
    3.1 Launch -> Select Name -> Source (Ubuntu or Centos) -> Flavor (m1.small or m1.medium ) -> -> -> (Key Pair – Only first time, create your ssh key or upload existing ssh key).
 
    3.2 Creating floating ip (first time only): Project -> Instance -> options from instance --> associate floating ip -> create IP -> allocate IP .
 
-   3.3 To SSH to VM use (if Ubuntu image ) user name : ubuntu ,  (CentOS image) user name : centos  --->      ssh username@floating_ip -i ssh_key
+   3.3 To SSH to VM use (if Ubuntu image ) user name : ubuntu ,  (CentOS image) user name : centos  --->      
+```
+ssh username@floating_ip -i ssh_key
+```
 
 Part 2: 
 
