@@ -8,7 +8,7 @@ For this assignment you form groups of 3, which you then keep for the project. U
 
 ## Part 1: 
 
-1. Login in to http://cloud.cs.ux.uis.no/horizon (Links to an external site.) using the details provides to you group. [Works only from UiS network]
+1. Login in to https://cloud.cs.ux.uis.no/horizon (Links to an external site.) using the details provides to you group. [Works only from UiS network]
 2. Go to Project->Network->Network  [You will perform this step only once] 
 
    2.1 Create network: Choose name , Subnet Name, Network address [X = Group Number.] (10.10.X.0/24 or you can choose any other private ip range), Gateway IP (10.10.X.1 or you can leave it).  --- Create the Network. 
@@ -20,14 +20,12 @@ Network address: 10.10.1.0/24
 Gateway IP: 10.10.1.1
 ```
 
-
    2.2 Create router: Choose router name, choose external network. --- Create the Router. 
 ```
 # For example Group 1: 
 Router name : Group1_router
 External network : public-network1  # Avilable from drop down options
 ```
-
 
    2.3 Add interface: Choose router (click on router name) -> In Interface Tab -> Add Interface -> Select Subnet Name -> Submit (create the interface). 
 ```
@@ -36,11 +34,9 @@ Router name : Group1_router
 External network : public-network1  # Avilable from drop down options
 ```
 
-
    2.4 You can check the Network Topology for each step. 
 
-
-   2.5Manage Security Group Rules: Project -> Network -> Security Groups -> Manage Rules ->Add Rule -> Rule (select SSH) , CIDR (choose IP from where you want to connect from) -> Add.   (If you don’t have this rule, you will not be able to SSH to the VM created)
+   2.5 Manage Security Group Rules: Project -> Network -> Security Groups -> Manage Rules ->Add Rule -> Rule (select SSH) , CIDR (choose IP from where you want to connect from) -> Add.   (If you don’t have this rule, you will not be able to SSH to the VM created)
 
 
 3. Create a test VM: Go to Project -> Compute -> Instances 
@@ -66,7 +62,7 @@ This task is significantly more difficult than the earlier three. You need to co
 
 Extra Info : Save all the steps, in case you are facing some problem, it will be easy to recreate the setup faster. 
 
-[Steps for 3.2.1 are given, Spark in not avilable for this version. If you are going to use Spark, please do some research and choose your Hadoop version carefully]
+[Steps for 3.2.1 are given, Spark in not avilable for this version at the moment. If you are going to use Spark, please do some research and choose your Hadoop version carefully]
 
 ```
 # On all nodes
