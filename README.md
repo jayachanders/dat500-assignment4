@@ -20,12 +20,14 @@ Network address: 10.10.1.0/24
 Gateway IP: 10.10.1.1
 ```
 
+
    2.2 Create router: Choose router name, choose external network. --- Create the Router. 
 ```
 # For example Group 1: 
 Router name : Group1_router
 External network : public-network1  # Avilable from drop down options
 ```
+
 
    2.3 Add interface: Choose router (click on router name) -> In Interface Tab -> Add Interface -> Select Subnet Name -> Submit (create the interface). 
 ```
@@ -34,8 +36,10 @@ Router name : Group1_router
 External network : public-network1  # Avilable from drop down options
 ```
 
+
    2.4 You can check the Network Topology for each step. 
-   
+
+
    2.5Manage Security Group Rules: Project -> Network -> Security Groups -> Manage Rules ->Add Rule -> Rule (select SSH) , CIDR (choose IP from where you want to connect from) -> Add.   (If you don’t have this rule, you will not be able to SSH to the VM created)
 
 
