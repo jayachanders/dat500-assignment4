@@ -43,7 +43,7 @@ External network : public-network1  # Avilable from drop down options
 
    3.1 Launch -> Select Name -> Source (Ubuntu or Centos) -> Flavor (m1.small or m1.medium ) -> -> -> (Key Pair – Only first time, create your ssh key or upload existing ssh key).
 
-   3.2 Creating floating ip (first time only): Project -> Instance -> options from instance --> associate floating ip -> create IP -> allocate IP .
+   3.2 Creating floating ip (first time only): Project -> Compute -> Instance -> options from instance --> associate floating ip -> create IP -> allocate IP .
 
    3.3 To SSH to VM use (if Ubuntu image ) user name : ubuntu ,  (CentOS image) user name : centos  --->      
 ```
