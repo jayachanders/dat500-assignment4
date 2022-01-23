@@ -67,7 +67,8 @@ Extra Info : Save all the steps, in case you are facing some problem, it will be
 ```
 # On all nodes
 sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update && sudo apt-get install -y build-essential python oracle-java8-set-default
+sudo apt-get update && sudo apt-get install -y build-essential unzip python3 python3-pip openjdk-8-jdk
+pip3 install mrjob
 ```
 
 Now, let's download Hadoop and set it up.
@@ -77,13 +78,15 @@ wget https://archive.apache.org/dist/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar
 tar -xzvf hadoop-3.2.1.tar.gz
 sudo mv hadoop-3.2.1 /usr/local/hadoop
 ```
+
 set environment variables
 ```
 # On all nodes
-sudo vi /etc/environment
-
+sudo tee /etc/environment > /dev/null << EOL
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/hadoop/bin:/usr/local/hadoop/sbin"
-JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
+JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+HADOOP_HOME="/usr/local/hadoop"
+EOL
 ```
 
 Update it:
@@ -104,10 +107,9 @@ sudo vi /etc/hosts
 ```
 
 ## Hadoop environment setup
-sudo vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml
-
-```
 # On all nodes
+```
+sudo tee /usr/local/hadoop/etc/hadoop/hdfs-site.xml > /dev/null << EOL
 <configuration>
   <property>
     <name>dfs.namenode.name.dir</name>
@@ -122,23 +124,24 @@ sudo vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml
     <value>2</value>
   </property>
 </configuration>
+EOL
 ```
 
-sudo vi /usr/local/hadoop/etc/hadoop/core-site.xml
-
-```
 # On all nodes
+```
+sudo tee /usr/local/hadoop/etc/hadoop/core-site.xml > /dev/null << EOL
 <configuration>
   <property>
     <name>fs.default.name</name>
     <value>hdfs://namenode:9000</value>
   </property>
 </configuration>
+EOL
 ```
 
-sudo vi /usr/local/hadoop/etc/hadoop/yarn-site.xml
-```
 # On all nodes
+```
+sudo tee /usr/local/hadoop/etc/hadoop/yarn-site.xml > /dev/null << EOL
 <configuration>
   <property>
     <name>yarn.nodemanager.aux-services</name>
@@ -157,11 +160,12 @@ sudo vi /usr/local/hadoop/etc/hadoop/yarn-site.xml
     <value>false</value>
   </property>
 </configuration>
+EOL
 ```
 
-sudo vi /usr/local/hadoop/etc/hadoop/mapred-site.xml
-```
 # On all nodes
+```
+sudo tee /usr/local/hadoop/etc/hadoop/mapred-site.xml > /dev/null << EOL
 <configuration>
     <property>
         <name>mapreduce.framework.name</name>
@@ -179,41 +183,51 @@ sudo vi /usr/local/hadoop/etc/hadoop/mapred-site.xml
         <name>mapreduce.reduce.env</name>
         <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
     </property>
+    <property> 
+      <name>mapreduce.application.classpath</name>
+      <value>$HADOOP_HOME/share/hadoop/mapreduce/*,$HADOOP_HOME/share/hadoop/mapreduce/lib/*,$HADOOP_HOME/share/hadoop/common/*,$HADOOP_HOME/share/hadoop/common/lib/*,$HADOOP_HOME/share/hadoop/yarn/*,$HADOOP_HOME/share/hadoop/yarn/lib/*,$HADOOP_HOME/share/hadoop/hdfs/*,$HADOOP_HOME/share/hadoop/hdfs/lib/*</value>
+    </property>
 </configuration>
+EOL
 ```
 
-sudo vi /usr/local/hadoop/etc/hadoop/workers
-```
 # On all nodes
+```
+sudo tee /usr/local/hadoop/etc/hadoop/workers > /dev/null << EOL
 datanode1
 datanode2
 datanode3
+EOL
 ```
 
-sudo vi /usr/local/hadoop/etc/hadoop/masters
-```
 # On all nodes
+```
+sudo tee /usr/local/hadoop/etc/hadoop/masters > /dev/null << EOL
 namenode
+EOL
 ```
 
 Format the HDFS, this needs to be done only in the first step. Once the HDFS is setup, don't run this command. It will delete data in HDFS.
-```
 # Only on namenode
+```
 hdfs namenode -format
 ```
 
 Start dfs and yarn
-```
 # Only on namenode
+```
 start-dfs.sh
 start-yarn.sh
 hadoop fs -ls /
 ```
 
 Check hdfs status: Live datanodes should be 3
-```
 # Only on namenode
+```
 hdfs dfsadmin -report
+hadoop fs -mkdir /dis_materials
+hadoop fs -put dis_materials/*.txt dis_materials/*.csv /dis_materials
+
 ```
 
 
