@@ -66,7 +66,6 @@ Extra Info : Save all the steps, in case you are facing some problem, it will be
 
 ```
 # On all nodes
-sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update && sudo apt-get install -y build-essential unzip python3 python3-pip openjdk-8-jdk
 pip3 install mrjob
 ```
