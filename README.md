@@ -4,7 +4,7 @@ To form groups and to start with this assignment you need all 3 previous assignm
 
 This assignment is more important, but also more complex, compared to first 3 labs, because you are going to use this setup for your project. So, make sure you complete the task and keep it ready for your projects.  
 
-For this assignment you form groups of 3, which you then keep for the project. Use group features on Canvas. 
+For this assignment you form groups of 2, which you then keep for the project. Use group features on Canvas. 
 
 ## Part 1: 
 
@@ -224,11 +224,19 @@ Check hdfs status: Live datanodes should be 3
 # Only on namenode
 ```
 hdfs dfsadmin -report
+```
+
+Create folder on HDFS, copy files (hdfs dfs -- can also be used)
+# Only on namenode
+```
 hadoop fs -mkdir /dis_materials
 hadoop fs -put dis_materials/*.txt dis_materials/*.csv /dis_materials
 
 ```
-
-
+Remove a folder and contents from hdfs (hadoop fs -- can also be used )
+# Only on namenode
 ```
+hdfs dfs -rm -r /dis_materials/output1
 ```
+
+Once the installation is successful, please check your able to run previous assignment files on this cluster.
