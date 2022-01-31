@@ -206,35 +206,35 @@ namenode
 EOL
 ```
 
-Format the HDFS, this needs to be done only in the first step. Once the HDFS is setup, don't run this command. It will delete data in HDFS.
 # Only on namenode
+Format the HDFS, this needs to be done only in the first step. Once the HDFS is setup, don't run this command. It will delete data in HDFS.
 ```
 hdfs namenode -format
 ```
 
-Start dfs and yarn
 # Only on namenode
+Start dfs and yarn
 ```
 start-dfs.sh
 start-yarn.sh
 hadoop fs -ls /
 ```
 
-Check hdfs status: Live datanodes should be 3
 # Only on namenode
+Check hdfs status: Live datanodes should be 3
 ```
 hdfs dfsadmin -report
 ```
 
-Create folder on HDFS, copy files (hdfs dfs -- can also be used)
 # Only on namenode
+Create folder on HDFS, copy files (hdfs dfs -- can also be used)
 ```
 hadoop fs -mkdir /dis_materials
 hadoop fs -put dis_materials/*.txt dis_materials/*.csv /dis_materials
 
 ```
-Remove a folder and contents from hdfs (hadoop fs -- can also be used )
 # Only on namenode
+Remove a folder and contents from hdfs (hadoop fs -- can also be used )
 ```
 hdfs dfs -rm -r /dis_materials/output1
 ```
