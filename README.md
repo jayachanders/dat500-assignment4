@@ -63,14 +63,16 @@ This task is significantly more difficult than the earlier three. You need to co
 Extra Info : Save all the steps, in case you are facing some problem, it will be easy to recreate the setup faster. 
 
 [Steps for 3.2.1 are given, Spark in not avilable for this version at the moment. If you are going to use Spark, please do some research and choose your Hadoop version carefully]
+[Commands are provided for Ubuntu Images, if you are comfortable with CentOS, please change the commands accordingly]
 
+4.1 Install required software packages 
 ```
 # On all nodes
 sudo apt-get update && sudo apt-get install -y build-essential unzip python3 python3-pip openjdk-8-jdk
 pip3 install mrjob
 ```
 
-Now, let's download Hadoop and set it up.
+4.2 Now, let's download Hadoop and set it up.
 ```
 # On all nodes
 wget https://archive.apache.org/dist/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
@@ -78,7 +80,7 @@ tar -xzvf hadoop-3.2.1.tar.gz
 sudo mv hadoop-3.2.1 /usr/local/hadoop
 ```
 
-set environment variables
+4.3 set environment variables
 ```
 # On all nodes
 sudo tee /etc/environment > /dev/null << EOL
@@ -88,13 +90,13 @@ HADOOP_HOME="/usr/local/hadoop"
 EOL
 ```
 
-Update it:
+4.4 Update it:
 ```
 # On all nodes
 source /etc/environment
 ```
 
-Set proper hostnames and instead of using the IP address.
+4.5 Set proper hostnames and instead of using the IP address.
 
 sudo vi /etc/hosts
 ```
@@ -105,7 +107,7 @@ sudo vi /etc/hosts
 10.10.X.c datanode3
 ```
 
-## Hadoop environment setup
+## 4.6 Hadoop environment setup
 # On all nodes
 ```
 sudo tee /usr/local/hadoop/etc/hadoop/hdfs-site.xml > /dev/null << EOL
@@ -206,12 +208,16 @@ namenode
 EOL
 ```
 
+4.7 Make sure, you have completed all the above mentioned steps on all node [namenode and datanodes]. Then,
+
+Format the HDFS: this needs to be done only once, while setting HDFS for the first time. Once the HDFS is setup, don't run this command. It will delete data in HDFS.
 # Only on namenode
 Format the HDFS, this needs to be done only in the first step. Once the HDFS is setup, don't run this command. It will delete data in HDFS.
 ```
 hdfs namenode -format
 ```
 
+4.8 Start dfs and yarn
 # Only on namenode
 Start dfs and yarn
 ```
@@ -220,23 +226,28 @@ start-yarn.sh
 hadoop fs -ls /
 ```
 
+4.9 Copy the data from your local machine to namenode
+```
+scp -i ssh_key dis_materials ubuntu@152.94.X.Y:/home/ubuntu/
+```
+
+4.10 Check hdfs status: Live datanodes should be 3
 # Only on namenode
-Check hdfs status: Live datanodes should be 3
 ```
 hdfs dfsadmin -report
 ```
 
+4.11 Create folder on HDFS, copy files (hdfs dfs -- can also be used)
 # Only on namenode
-Create folder on HDFS, copy files (hdfs dfs -- can also be used)
 ```
 hadoop fs -mkdir /dis_materials
 hadoop fs -put dis_materials/*.txt dis_materials/*.csv /dis_materials
-
 ```
+
+4.12 Once the installation is successful, please check your able to run previous assignment files on this cluster.
+
+5. Remove a folder and contents from hdfs (hadoop fs -- can also be used )
 # Only on namenode
-Remove a folder and contents from hdfs (hadoop fs -- can also be used )
 ```
 hdfs dfs -rm -r /dis_materials/output1
 ```
-
-Once the installation is successful, please check your able to run previous assignment files on this cluster.
